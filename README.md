@@ -3,7 +3,7 @@
 
 ### How to use it?
 
-Edit the input file in line 73
+Edit the path to your input file on line 1
 
 ### How should the input file be structured?
 

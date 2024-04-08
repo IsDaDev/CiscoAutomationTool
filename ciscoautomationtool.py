@@ -1,3 +1,5 @@
+filePath = "C:\\Users\\Paul\\Desktop\\coding_lap\\PY\\ciscoaut\\input.txt"
+
 #imports
 from pyautogui import typewrite as tw
 from pyautogui import press
@@ -9,16 +11,28 @@ import sys
 interfaces = []
 ip = []
 
-#enter function
+# function to read from the input-file
+def read(path):
+    # File that contains the router configuration
+    f = open(path)
+    if not f:
+        sys.exit("Error finding file\nCheck the path on line 1")
+    # Reads all lines into content buffer
+    content = f.readlines()
+
+    return content
+
+
+# enter function
 def enter():
     press("enter")
 
-#exit function
+# exit function
 def leave():
     tw("exit")
     enter()
 
-#function to get into the global config mode
+# function to get into the global config mode
 def getToGlobalConf():
     time.sleep(0.2)
     tw("no")
@@ -30,8 +44,8 @@ def getToGlobalConf():
     enter()
     print("GetToGlobalConf")
 
-#function to configure an interface
-#params: Interface to config, Prefix for the IP, the IP and the Subnetmask
+# function to configure an interface
+# params: Interface to config, Prefix for the IP, the IP and the Subnetmask
 def configureInt(interface, ipPrefix, ip, sn):
     fullIP = ipPrefix + ip
     tw(f"int {interface}")
@@ -56,7 +70,7 @@ def modt():
     print("Tool by" + Color.ORANGE + " IsDaDev")
     print(Color.GREEN + "*********************************************************************" + Color.DEFAULT)
 
-#main function
+# main function
 def main():
     modt()
     # Default values
@@ -69,11 +83,7 @@ def main():
     #counter variable
     counter = 0
 
-    # File that contains the router configuration
-    f = open("C:\\Users\\Paul\\Desktop\\coding_lap\\PY\\ciscoaut\\input.txt", "r")
-
-    # Reads all lines into content buffer
-    content = f.readlines()
+    content = read(filePath)
 
     
     for element in content:
