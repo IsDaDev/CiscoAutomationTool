@@ -1,9 +1,10 @@
 # CiscoAutomationTool
+
 ## A simple little tool to customize Cisco Router and Switches
 
 ### How to use it?
 
-Edit the path to your input file on line 1
+Just edit the input.txt file
 
 ### How should the input file be structured?
 

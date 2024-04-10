@@ -1,4 +1,4 @@
-filePath = "C:\\Users\\Paul\\Desktop\\coding_lap\\PY\\ciscoaut\\input.txt"
+filePath = "input.txt"
 
 #imports
 from pyautogui import typewrite as tw
