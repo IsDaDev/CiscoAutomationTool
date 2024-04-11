@@ -105,8 +105,9 @@ def main():
             # Even index
             # If the index is even, its added to the ip array
             ip.append(element.strip("\n"))
-    print("A list with all interfaces to configure: ", interfaces)
-    print("A list with all IP addresses to assign: ", ip)
+    
+    for i in range(len(interfaces)):
+        print(f"Configuring {interfaces[i]} with IP {ip[i]}")
     
     # Error handling for the file length
     if counter % 2 != 1:
