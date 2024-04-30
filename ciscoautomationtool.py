@@ -22,6 +22,16 @@ def read(path):
 
     return content
 
+# function to check if the interface is non-serial
+def intS(index):
+    prefixes = ["Ge", "G", "Fe", "F"]
+    # loops through each prefix in the prefix-array
+    for prefix in prefixes:
+        # returns true if the interface is found
+        if prefix.lower() in interfaces[index].lower():
+            return True
+            print(True)
+    return False
 
 # enter function
 def enter():
@@ -78,6 +88,7 @@ def main():
     defaultSubnetmaskR2R = "255.255.255.252"
     defaultSubnetmaskR2E = "255.255.255.0"
     defaultIPPrefix = "192.168."
+    defaultSIPPrefix = "10.10."
     # routerName is not defined yet
     routerName = ""
     #counter variable
@@ -107,7 +118,11 @@ def main():
             ip.append(element.strip("\n"))
     
     for i in range(len(interfaces)):
-        print(f"Configuring {interfaces[i]} with IP {ip[i]}")
+        # check if not serial
+        if intS(i):
+            print(f"Configuring {interfaces[i]} with IP {defaultIPPrefix + ip[i]}")
+        else:
+            print(f"Configuring {interfaces[i]} with IP {defaultSIPPrefix + ip[i]}")
     
     # Error handling for the file length
     if counter % 2 != 1:
@@ -120,6 +135,9 @@ def main():
     # default subnetmask for R2E networks and default subnetmask for R2R networks
     if isDefault != "yes":
         defaultIPPrefix = input("What is the default IP Prefix\nFormat: xxx.xxx.\n")
+        if len(defaultIPPrefix) < 5:
+            sys.exit("Input for IP Prefix is invalid")
+        defaultSIPPrefix = input("What is the default IP Prefix for Serial Interfaces\nFormat: xxx.xxx.\n")
         if len(defaultIPPrefix) < 5:
             sys.exit("Input for IP Prefix is invalid")
         # input for the subnetmask R2E
@@ -135,17 +153,6 @@ def main():
         if len(defaultSubnetmaskR2R) <= 8 and len(defaultSubnetmaskR2R) >= 15:
             sys.exit("Input for Router2Router subnetmask is invalid")
 
-    # function to check if the interface is non-serial
-    def intS(index):
-        prefixes = ["Ge", "G", "Fe", "F"]
-        # loops through each prefix in the prefix-array
-        for prefix in prefixes:
-            # returns true if the interface is found
-            if prefix.lower() in interfaces[index].lower():
-                return True
-                print(True)
-        return False
-
     # selects the window that matches the first entry in the input file
     routerWindow = Desktop(backend="win32").window(title=routerName)
     # sets the window into focus
@@ -158,7 +165,7 @@ def main():
     for i in range(int(counter / 2)):
         # if its an Serial Interface it configures is with the default subnetmask for R2R
         if interfaces[i].find("S") != -1:
-            configureInt(interfaces[i], defaultIPPrefix, ip[i], defaultSubnetmaskR2R)
+            configureInt(interfaces[i], defaultSIPPrefix, ip[i], defaultSubnetmaskR2R)
         # if its Gigabit- or FastEthernet, configures it with default subnetmask for R2E
         elif intS(i):
             configureInt(interfaces[i], defaultIPPrefix, ip[i], defaultSubnetmaskR2E)

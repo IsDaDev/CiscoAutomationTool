@@ -8,7 +8,7 @@ Just edit the input.txt file
 
 ### How should the input file be structured?
 
-Line#1 : Name of the device to configure. (RT01, Router1, ...)<br>
+Line#1 : Name of the device to configure. (RT01, ...)<br>
 Line#2 : Interface 1<br>
 Line#3 : IP for the corresponding interface<br>
 
